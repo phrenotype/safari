@@ -1,0 +1,28 @@
+{
+    "name": "chase/safari",
+    "description": "A form builder for bots and humans",
+    "type": "library",
+    "keywords": [
+        "form",
+        "form builder",
+        "php form builder",
+        "php",
+        "php form"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paul Robert",
+            "email": "paul.contrib@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Chase\\": "Chase/"
+        },
+        "files": []
+    },
+    "require": {
+        "php": ">=7.0.0"
+    }
+}
