@@ -123,7 +123,9 @@ class SampleForm extends Form
 
             $this->builder->select(
                 ['name' => 'selectname'],
+                
                 ['inputValue' => 'displayName', 'anotherInputValue' => 'displayName'],
+
                 // Optional. Default value.
                 'inputValue'
             ),
