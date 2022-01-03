@@ -53,7 +53,7 @@ class LoginForm extends Form
                 'type' => 'submit',
                 'value' => 'SUBMIT'
             ])
-        ]
+        ];
     }
 }
 
