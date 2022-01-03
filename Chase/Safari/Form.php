@@ -15,14 +15,14 @@ abstract class Form
     ];
 
     /**
-     * @var ElementBuilder $elementBuilder
+     * @var ElementBuilder $builder
      */
-    public $elementBuilder;
+    public $builder;
 
     public function __construct(array $request)
     {
         $request = Utils::cleanGlobal($request);
-        $this->elementBuilder = new ElementBuilder($request);
+        $this->builder = new ElementBuilder($request);
     }
 
     public function __set($name, $value)

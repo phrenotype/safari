@@ -111,7 +111,7 @@ class ElementBuilder
                 if (($name && $valueInRequest && $optKey == $valueInRequest)) {
                     $e->html .= ' selected="selected"';
                 }
-            } else if ($default == $valueInRequest) {
+            } else if ($default == $optKey) {
                 $e->html .= ' selected="selected"';
             }
 

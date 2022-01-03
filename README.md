@@ -67,17 +67,17 @@ class LoginForm extends Form
 
     public function elements(){
         return [
-            $this->elementBuilder->input([
+            $this->builder->input([
                 'type' => 'text',
                 'name' => 'username',                
                 'placeholder' => 'Username'
             ]),
-            $this->elementBuilder->input([
+            $this->builder->input([
                 'type' => 'password',
                 'name' => 'password',
                 'placeholder'=>'Password'                
             ]),
-            $this->elementBuilder->input([
+            $this->builder->input([
                 'type' => 'submit',
                 'value' => 'SUBMIT'
             ])
@@ -93,6 +93,73 @@ Then, any time you need a login form
 $login = new LoginForm;
 echo $login->render()
 ```
+
+## Code Sample
+```php
+<?php
+
+use Chase\Safari\Form;
+
+class LoginForm extends Form
+{
+
+    public function __construct()
+    {
+        parent::__construct($_POST);
+        $this->method = "POST";
+        $this->action = "/login";
+        $this->target = "_blank";
+    }
+
+    public function elements(): array
+    {
+        return [
+            $this->builder->raw('<br>'),
+
+            $this->builder->input([
+                'type' => 'text',
+                'name' => 'username',
+                'placeholder' => 'Username'
+            ]),
+
+            $this->builder->raw('<br>'),
+
+            $this->builder->radio([
+                'name' => 'radioname',
+                'value' => 'radiovalue'
+            ]),
+
+            $this->builder->raw('<br>'),
+
+            $this->builder->checkbox([
+                'name' => 'username',
+                'value' => 'checkvalue'
+            ]),
+
+            $this->builder->textarea([
+                'name' => 'textareaname',
+            ]),
+
+            $this->builder->raw('<br>'),
+
+            $this->builder->select(
+                ['name' => 'selectname'],
+                ['inputValue' => 'displayName', 'anotherInputValue' => 'displayName'],
+                // Optional. Default value.
+                'inputValue'
+            ),
+
+            $this->builder->raw('<br>'),
+
+            $this->builder->input([
+                'type' => 'submit',
+                'value' => 'SUBMIT'
+            ])
+        ];
+    }
+}
+```
+
 
 ## Contact  
 **Email** : paul.contrib@gmail.com
