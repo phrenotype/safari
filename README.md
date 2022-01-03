@@ -10,43 +10,12 @@ This library makes php forms easy to build and re-use, yes, re-use.
 
 Just like orm models are simply declared and used over and over again, php form can be declared as classes with form elements defined and simply rendered when the need arises.
 
-Look at this  
-
-```php
-$login = new LoginForm;
-$login->with("action", "/")->with("method", "POST")->render();
-```
-
-And, of course one could simply skip the `with` calls by simply defining the method and action in the `LoginForm` class and end up with  
-
-```php
-$login = new LoginForm;
-$login->render();
-```
-
 ## Install  
 `composer require chase/safari`  
 
 ## Usage
 
-For each form, you need to define a class that extends `Chase\Safari\Form`, an abstract class. Ensure the parent constructor in called within your own constructor. The super global containing the form values should be passed to it. The super global is automatically encoded using `htmlentities` to prevent `xss`.
-
-```php
-<?php
-
-use Chase\Safari\Form;
-
-class LoginForm extends Form
-{
-
-    public function __construct(){
-        parent::__construct($_POST);
-        $this->method = "POST";
-        $this->action = "/login";
-        $this->target = "_blank";
-    }
-}
-```
+For each form, you need to define a class that extends `Chase\Safari\Form`, an abstract class. Ensure the parent constructor in called within your own constructor. The super global containing the form values should be passed to it. The super global is automatically encoded using `htmlentities` to prevent `xss`. Also, you can optionally assign form attributes in the constructor.
 
 Then, you are required to implement a method, `elements`, which returns an array of the form elements. This is where you define the form schema.
 
@@ -60,9 +29,12 @@ class LoginForm extends Form
 
     public function __construct(){
         parent::__construct($_POST);
+
+        // These are optional
         $this->method = "POST";
         $this->action = "/login";
         $this->target = "_blank";
+        $this->class = "";
     }
 
     public function elements(){
@@ -92,6 +64,13 @@ Then, any time you need a login form
 ```php
 $login = new LoginForm;
 echo $login->render()
+```  
+
+Or with different form attributes  
+
+```php
+$login = new LoginForm;
+echo $login->with("method", "GET")->with("action", "/")->render()
 ```
 
 ## Code Sample
@@ -100,7 +79,7 @@ echo $login->render()
 
 use Chase\Safari\Form;
 
-class LoginForm extends Form
+class SampleForm extends Form
 {
 
     public function __construct()
