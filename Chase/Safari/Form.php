@@ -27,7 +27,15 @@ abstract class Form
 
     public function __set($name, $value)
     {
-        $this->attributes[$name] = $value;
+        if($name === 'request'){
+            if(!is_array($value)){
+                throw new \Error("Form attribute 'request' must have an array value.");
+            }
+            $request = Utils::cleanGlobal($value);
+            $this->builder = new ElementBuilder($request);
+        }else{
+            $this->attributes[$name] = $value;
+        }        
     }
 
     public function __get($name)

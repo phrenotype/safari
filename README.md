@@ -70,7 +70,7 @@ Or with different form attributes
 
 ```php
 $login = new LoginForm;
-echo $login->with("method", "GET")->with("action", "/")->render()
+echo $login->with("method", "GET")->with("action", "/")->with("request", $_GET)->render()
 ```
 
 ## Code Sample
