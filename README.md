@@ -27,8 +27,9 @@ use Chase\Safari\Form;
 class LoginForm extends Form
 {
 
-    public function __construct(){
-        parent::__construct($_POST);
+    public function __construct(array $request){
+
+        parent::__construct($request);
 
         // These are optional
         $this->method = "POST";
@@ -62,14 +63,14 @@ class LoginForm extends Form
 Then, any time you need a login form  
 
 ```php
-$login = new LoginForm;
+$login = new LoginForm($_POST);
 echo $login->render()
 ```  
 
 Or with different form attributes  
 
 ```php
-$login = new LoginForm;
+$login = new LoginForm($_GET);
 echo $login->with("method", "GET")->with("action", "/")->with("request", $_GET)->render()
 ```
 
@@ -82,9 +83,10 @@ use Chase\Safari\Form;
 class SampleForm extends Form
 {
 
-    public function __construct()
+    public function __construct(array $request)
     {
-        parent::__construct($_POST);
+        parent::__construct($request);
+        
         $this->method = "POST";
         $this->action = "/login";
         $this->target = "_blank";
