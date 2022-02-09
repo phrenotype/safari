@@ -10,6 +10,8 @@ This library makes php forms easy to build and re-use, yes, re-use.
 
 Just like orm models are simply declared and used over and over again, php form can be declared as classes with form elements defined and simply rendered when the need arises.
 
+Previously submitted form values are automatically filled or choosen.
+
 ## Install  
 `composer require chase/safari`  
 
