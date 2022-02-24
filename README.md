@@ -40,19 +40,19 @@ class LoginForm extends Form
         $this->class = "";
     }
 
-    public function elements(){
+    public function elements() : array {
         return [
-            $this->builder->input([
+            $this->input([
                 'type' => 'text',
                 'name' => 'username',                
                 'placeholder' => 'Username'
             ]),
-            $this->builder->input([
+            $this->input([
                 'type' => 'password',
                 'name' => 'password',
                 'placeholder'=>'Password'                
             ]),
-            $this->builder->input([
+            $this->input([
                 'type' => 'submit',
                 'value' => 'SUBMIT'
             ])
@@ -76,6 +76,41 @@ $login = new LoginForm($_GET);
 echo $login->with("method", "GET")->with("action", "/")->render()
 ```
 
+## Note
+The form building methods used in the `Chase\Safari\Form::elements()` method (`input`, `raw`, e.t.c) are not actually implemented on the class itself. The are methods of the `Chase\Safari\ElementBuilder` class.  
+
+Each `Chase\Safari\Form` has an attribute called `builder`, which is an instance of `Chase\Safari\ElementBuilder`.  
+
+Using the magic method `Chase\Safari\Form::__call`, all calls to the builder methods are tranfered to it.  
+
+TLDR;  
+
+Instead of this  
+
+```php
+//Snippet
+public function elements() : array {
+    return [
+        $this->input([
+            // Input parameters
+        ])
+    ];
+}
+```
+ You can do this  
+
+```php
+public function elements() : array {
+    return [
+        $this->builder->input([
+            // Input parameters
+        ])
+    ];
+}
+```  
+
+They are both equivalent.
+
 ## Code Sample
 ```php
 <?php
@@ -97,49 +132,55 @@ class SampleForm extends Form
     public function elements(): array
     {
         return [
-            $this->builder->raw('<br>'),
+            $this->raw('<br>'),
 
-            $this->builder->input([
+            $this->input([
                 'type' => 'text',
                 'name' => 'username',
                 'placeholder' => 'Username'
             ]),
 
-            $this->builder->raw('<br>'),
+            $this->raw('<br>'),
 
-            $this->builder->radio([
+            $this->radio([
                 'name' => 'radioname',
                 'value' => 'radiovalue'
             ]),
 
-            $this->builder->raw('<br>'),
+            $this->raw('<label>Radio display</label>'),
 
-            $this->builder->checkbox([
+            $this->raw('<br>'),
+
+            $this->checkbox([
                 'name' => 'username',
                 'value' => 'checkvalue'
             ]),
 
-            $this->builder->textarea([
+            $this->raw('<label>Checkbox display</label>'),
+
+            $this->raw('<br>'),
+
+            $this->textarea([
                 'name' => 'textareaname',
             ]),
 
-            $this->builder->raw('<br>'),
+            $this->raw('<br>'),
 
-            $this->builder->select(
-                
-                // Select attributes
+            $this->select(
+
+                // Select tag attributes.
                 ['name' => 'selectname'],
-                
-                // Options
-                ['optionValue' => 'displayName', 'anotherOptionValue' => 'displayName'],
 
-                // Default option. This is optional.
+                // Option tags. The array keys are the option values, the array values are the option display.
+                ['inputValue' => 'defaultDisplayName', 'anotherInputValue' => 'anotherDisplayName'],
+
+                // Default option. This argument is optional.
                 'inputValue'
             ),
 
-            $this->builder->raw('<br>'),
+            $this->raw('<br>'),
 
-            $this->builder->input([
+            $this->input([
                 'type' => 'submit',
                 'value' => 'SUBMIT'
             ])

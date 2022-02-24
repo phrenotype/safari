@@ -27,15 +27,15 @@ abstract class Form
 
     public function __set($name, $value)
     {
-        if($name === 'request'){
-            if(!is_array($value)){
+        if ($name === 'request') {
+            if (!is_array($value)) {
                 throw new \Error("Form attribute 'request' must have an array value.");
             }
             $request = Utils::cleanGlobal($value);
             $this->builder = new ElementBuilder($request);
-        }else{
+        } else {
             $this->attributes[$name] = $value;
-        }        
+        }
     }
 
     public function __get($name)
@@ -44,6 +44,21 @@ abstract class Form
             return $this->$name;
         }
         return null;
+    }
+
+    public function __call($name, $arguments)
+    {
+        $rc = new \ReflectionClass(ElementBuilder::class);
+        $methods = array_map(function ($rm) {
+            return $rm->name;
+        }, array_filter($rc->getMethods(\ReflectionMethod::IS_PUBLIC), function ($rm) {
+            return (strpos($rm->name, '_') !== 0);
+        }));
+        if (in_array($name, $methods)) {
+            return $this->builder->$name(...$arguments);
+        } else {
+            throw new \Error(sprintf("Unknowned method %s::%s()", ElementBuilder::class, $name));
+        }
     }
 
     /**
