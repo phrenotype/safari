@@ -31,8 +31,12 @@ class ElementBuilder
     private function decideValue(array $attributes): array
     {
         if (!empty($this->request)) {
+
             $v = $attributes['value'] ?? null;
-            $r = $this->request['value'] ?? null;
+
+            $name = $attributes['name'] ?? bin2hex(random_bytes(10));
+
+            $r = $this->request[$name] ?? null;
 
             if ($r) {
                 $attributes['value'] = $r;
