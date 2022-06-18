@@ -4,20 +4,22 @@
 ![license](https://img.shields.io/github/license/phrenotype/safari)
 ![contributors](https://img.shields.io/github/contributors/phrenotype/safari)
 ![contributors](https://img.shields.io/github/languages/code-size/phrenotype/safari)
-![downloads](https://img.shields.io/packagist/dm/chase/safari)  
+![downloads](https://img.shields.io/packagist/dm/chase/safari)
 
-This library makes php forms easy to build and re-use, yes, re-use.  
+This library makes php forms easy to build and re-use, yes, re-use.
 
 Just like orm models are simply declared and used over and over again, php form can be declared as classes with form elements defined and simply rendered when the need arises.
 
 Previously submitted form values are automatically filled or choosen.
 
-## Install  
-`composer require chase/safari`  
+## Install
+`composer require chase/safari`
 
 ## Usage
 
-For each form, you need to define a class that extends `Chase\Safari\Form`, an abstract class. Ensure the parent constructor in called within your own constructor. The super global containing the form values should be passed to it. The super global is automatically encoded using `htmlentities` to prevent `xss`. Also, you can optionally assign form attributes in the constructor.
+For each form, you need to define a class that extends `Chase\Safari\Form`, an abstract class. Ensure the parent constructor in called within your own constructor. The super global containing the form values should be passed to it. The super global is automatically encoded using `htmlentities` to prevent `xss`.
+
+Additionally, you can optionally assign form attributes in the constructor. However, make sure you declare them as instance attributes or you will be unable to retrieve the values later.
 
 Then, you are required to implement a method, `elements`, which returns an array of the form elements. This is where you define the form schema.
 
@@ -29,6 +31,9 @@ use Chase\Safari\Form;
 class LoginForm extends Form
 {
 
+    // Your custom attributes
+    public $userId;
+
     public function __construct(array $request){
 
         parent::__construct($request);
@@ -38,19 +43,22 @@ class LoginForm extends Form
         $this->action = "/login";
         $this->target = "_blank";
         $this->class = "";
+
+        // Assigning to your custom attribute
+        $this->userId = 123456;
     }
 
     public function elements() : array {
         return [
             $this->input([
                 'type' => 'text',
-                'name' => 'username',                
+                'name' => 'username',
                 'placeholder' => 'Username'
             ]),
             $this->input([
                 'type' => 'password',
                 'name' => 'password',
-                'placeholder'=>'Password'                
+                'placeholder'=>'Password'
             ]),
             $this->input([
                 'type' => 'submit',
@@ -62,14 +70,14 @@ class LoginForm extends Form
 
 ```
 
-Then, any time you need a login form  
+Then, any time you need a login form
 
 ```php
 $login = new LoginForm($_POST);
 echo $login->render()
-```  
+```
 
-Or with different form attributes  
+Or with different form attributes
 
 ```php
 $login = new LoginForm($_GET);
@@ -77,15 +85,15 @@ echo $login->with("method", "GET")->with("action", "/")->render()
 ```
 
 ## Note
-The form building methods used in the `Chase\Safari\Form::elements()` method (`input`, `raw`, e.t.c) are not actually implemented on the class itself. The are methods of the `Chase\Safari\ElementBuilder` class.  
+The form building methods used in the `Chase\Safari\Form::elements()` method (`input`, `raw`, e.t.c) are not actually implemented on the class itself. The are methods of the `Chase\Safari\ElementBuilder` class.
 
-Each `Chase\Safari\Form` has an attribute called `builder`, which is an instance of `Chase\Safari\ElementBuilder`.  
+Each `Chase\Safari\Form` has an attribute called `builder`, which is an instance of `Chase\Safari\ElementBuilder`.
 
-Using the magic method `Chase\Safari\Form::__call`, all calls to the builder methods are tranfered to it.  
+Using the magic method `Chase\Safari\Form::__call`, all calls to the builder methods are tranfered to it.
 
-TLDR;  
+TLDR;
 
-Instead of this  
+Instead of this
 
 ```php
 //Snippet
@@ -97,7 +105,7 @@ public function elements() : array {
     ];
 }
 ```
- You can do this  
+ You can do this
 
 ```php
 public function elements() : array {
@@ -107,7 +115,7 @@ public function elements() : array {
         ])
     ];
 }
-```  
+```
 
 They are both equivalent.
 
@@ -123,7 +131,7 @@ class SampleForm extends Form
     public function __construct(array $request)
     {
         parent::__construct($request);
-        
+
         $this->method = "POST";
         $this->action = "/login";
         $this->target = "_blank";
@@ -190,6 +198,6 @@ class SampleForm extends Form
 ```
 
 
-## Contact  
+## Contact
 **Email** : paul.contrib@gmail.com
 
