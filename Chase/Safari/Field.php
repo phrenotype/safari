@@ -65,10 +65,13 @@ class Field
      */
     public function textarea(callable $mutator): Field
     {
-        $element = new Element('input', static::$request);
+        $element = new Element('textarea', static::$request);
         $mutator($element);
-        $element->setHtml(function () use ($element) {
-            return "<textarea " . $element->stringify() . "/></textarea>";
+
+        $valueInRequest = static::$request[$element->name ?? ''] ?? null;
+
+        $element->setHtml(function () use ($element, $valueInRequest) {
+            return "<textarea " . $element->stringify() . "/>$valueInRequest</textarea>";
         });
         $this->elements[] = $element;
         return $this;
@@ -158,10 +161,10 @@ class Field
         $name = $element->name;
 
         if (!empty(static::$request) && $name) {
-            $valueInRequest = static::$request[$name];
+            $valueInRequest = static::$request[$name] ?? null;
             if (is_array($valueInRequest) && in_array($element->value, $valueInRequest)) {
                 $element->checked = 'checked';
-            } else if (in_array($element->value, $valueInRequest)) {
+            } else if (in_array($element->value, static::$request)) {
                 $element->checked = 'checked';
             }
         }
@@ -187,10 +190,10 @@ class Field
         $name = $element->name;
 
         if (!empty(static::$request) && $name) {
-            $valueInRequest = static::$request[$name];
+            $valueInRequest = static::$request[$name] ?? null;
             if (is_array($valueInRequest) && in_array($element->value, $valueInRequest)) {
                 $element->checked = 'checked';
-            } else if (in_array($element->value, $valueInRequest)) {
+            } else if (in_array($element->value, static::$request)) {
                 $element->checked = 'checked';
             }
         }

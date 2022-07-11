@@ -61,6 +61,7 @@ class Element
 
     public function html()
     {
+        $this->decideValue();
         if (!$this->__html__) {
             return "<{$this->__name__} " . $this->stringify() . "/>";
         } else {
