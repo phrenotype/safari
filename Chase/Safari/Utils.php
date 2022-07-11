@@ -10,9 +10,9 @@ class Utils
 
     /**
      * Convert an array in to html attribute string.
-     * 
+     *
      * @param array $array
-     * 
+     *
      * @return string
      */
     public static function stringify(array $array): string
@@ -30,9 +30,9 @@ class Utils
 
     /**
      * Encodes a string with htmlentitites.
-     * 
+     *
      * @param string $value
-     * 
+     *
      * @return string
      */
     public static function encodeHtml(string $value): string
@@ -42,9 +42,9 @@ class Utils
 
     /**
      * Encode an associative array.
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return array
      */
     public static function cleanGlobal(array $data): array

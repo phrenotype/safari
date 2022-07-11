@@ -31,7 +31,7 @@ use Chase\Safari\Form;
 class LoginForm extends Form
 {
 
-    // Your custom attributes
+    // Your custom attribute(s)
     public $userId;
 
     public function __construct(array $request){
@@ -49,22 +49,28 @@ class LoginForm extends Form
     }
 
     public function elements() : array {
-        return [
-            $this->input([
-                'type' => 'text',
-                'name' => 'username',
-                'placeholder' => 'Username'
-            ]),
-            $this->input([
-                'type' => 'password',
-                'name' => 'password',
-                'placeholder'=>'Password'
-            ]),
-            $this->input([
-                'type' => 'submit',
-                'value' => 'SUBMIT'
-            ])
-        ];
+
+        return Field::build()
+
+            ->input(function($e){
+                $e->type = 'text';
+                $e->name = 'username';
+                $e->placeholder = 'Username';
+            })
+
+            ->input(function($e){
+                $e->type = 'password';
+                $e->name = 'password';
+                $e->placeholder = 'Password';
+            })
+
+            ->input(function($e){
+                $e->type = 'submit';
+                $e->value = 'SUBMIT';
+            })
+
+            ->extract();
+
     }
 }
 
@@ -85,45 +91,14 @@ echo $login->with("method", "GET")->with("action", "/")->render()
 ```
 
 ## Note
-The form building methods used in the `Chase\Safari\Form::elements()` method (`input`, `raw`, e.t.c) are not actually implemented on the class itself. The are methods of the `Chase\Safari\ElementBuilder` class.
-
-Each `Chase\Safari\Form` has an attribute called `builder`, which is an instance of `Chase\Safari\ElementBuilder`.
-
-Using the magic method `Chase\Safari\Form::__call`, all calls to the builder methods are tranfered to it.
-
-TLDR;
-
-Instead of this
-
-```php
-//Snippet
-public function elements() : array {
-    return [
-        $this->input([
-            // Input parameters
-        ])
-    ];
-}
-```
- You can do this
-
-```php
-public function elements() : array {
-    return [
-        $this->builder->input([
-            // Input parameters
-        ])
-    ];
-}
-```
-
-They are both equivalent.
+If you have any special values you intend to pass to your constructor, ensure you define it as an attribute in the form class.
 
 ## Code Sample
 ```php
 <?php
 
 use Chase\Safari\Form;
+use Chase\Safari\Field;
 
 class SampleForm extends Form
 {
@@ -139,60 +114,60 @@ class SampleForm extends Form
 
     public function elements(): array
     {
-        return [
-            $this->raw('<br>'),
+        return Field::build()
 
-            $this->input([
-                'type' => 'text',
-                'name' => 'username',
-                'placeholder' => 'Username'
-            ]),
+            ->raw('<br>')
 
-            $this->raw('<br>'),
+            ->input(function ($el) {
+                // Default type is text
+                $el->name = 'username';
+                $el->placeholder = 'Username';
+            })
 
-            $this->radio([
-                'name' => 'radioname',
-                'value' => 'radiovalue'
-            ]),
+            ->raw('<br>')
 
-            $this->raw('<label>Radio display</label>'),
+            ->radio(function ($e) {
+                $e->name = 'radname';
+                $e->value = '787666';
+            })
 
-            $this->raw('<br>'),
+            ->raw('<label>Radio display</label>')
 
-            $this->checkbox([
-                'name' => 'username',
-                'value' => 'checkvalue'
-            ]),
+            ->raw('<br>')
 
-            $this->raw('<label>Checkbox display</label>'),
+            ->checkbox(function ($e) {
+                $e->name = 'checker';
+                $e->value = '2kleurY';
+            })
 
-            $this->raw('<br>'),
+            ->raw('<label>Checkbox display</label>')
 
-            $this->textarea([
-                'name' => 'textareaname',
-            ]),
+            ->raw('<br>')
 
-            $this->raw('<br>'),
+            ->textarea(function ($e) {
+                $e->name = 'textareaname';
+            })
 
-            $this->select(
+            ->raw('<br>')
 
-                // Select tag attributes.
-                ['name' => 'selectname'],
+            ->select(function ($e) {
+                $e->name = 'selectname';
 
-                // Option tags. The array keys are the option values, the array values are the option display.
-                ['inputValue' => 'defaultDisplayName', 'anotherInputValue' => 'anotherDisplayName'],
+                // The select options.
+                $e->options = ['optionValue' => 'defaultDisplayName', 'anotherOptionValue' => 'anotherDisplayName'];
 
-                // Default option. This argument is optional.
-                'inputValue'
-            ),
+                // Default selection
+                $e->default = 'inputValue';
+            })
 
-            $this->raw('<br>'),
+            ->raw('<br>')
 
-            $this->input([
-                'type' => 'submit',
-                'value' => 'SUBMIT'
-            ])
-        ];
+            ->input(function ($e) {
+                $e->type = 'submit';
+                $e->value = 'SUBMIT';
+            })
+
+            ->extract();
     }
 }
 ```

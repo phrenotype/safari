@@ -3,7 +3,7 @@
 namespace Chase\Safari;
 
 /**
- * Represents a form.
+ * Just an HTML form.
  */
 abstract class Form
 {
@@ -14,15 +14,10 @@ abstract class Form
         'action' => '/'
     ];
 
-    /**
-     * @var ElementBuilder $builder
-     */
-    public $builder;
-
     public function __construct(array $request)
     {
         $request = Utils::cleanGlobal($request);
-        $this->builder = new ElementBuilder($request);
+        Field::setRequest($request);
     }
 
     public function __set($name, $value)
@@ -32,7 +27,7 @@ abstract class Form
                 throw new \Error("Form attribute 'request' must have an array value.");
             }
             $request = Utils::cleanGlobal($value);
-            $this->builder = new ElementBuilder($request);
+            Field::setRequest($request);
         } else {
             $this->attributes[$name] = $value;
         }
@@ -46,27 +41,17 @@ abstract class Form
         return null;
     }
 
-    public function __call($name, $arguments)
+    public function __toString(): string
     {
-        $rc = new \ReflectionClass(ElementBuilder::class);
-        $methods = array_map(function ($rm) {
-            return $rm->name;
-        }, array_filter($rc->getMethods(\ReflectionMethod::IS_PUBLIC), function ($rm) {
-            return (strpos($rm->name, '_') !== 0);
-        }));
-        if (in_array($name, $methods)) {
-            return $this->builder->$name(...$arguments);
-        } else {
-            throw new \Error(sprintf("Unknowned method %s::%s()", ElementBuilder::class, $name));
-        }
+        return $this->render();
     }
 
     /**
      * Set an attribute on the form.
-     * 
+     *
      * @param mixed $key
      * @param mixed $value
-     * 
+     *
      * @return Form
      */
     public function with($key, $value): Form
@@ -77,14 +62,14 @@ abstract class Form
 
     /**
      * Return a html representation of the form.
-     * 
+     *
      * @return string
      */
     public function render(): string
     {
         $html = "<form " . Utils::stringify($this->attributes) . ">";
         foreach ($this->elements() as $element) {
-            $html .= $element->html;
+            $html .= $element->html();
         }
         $html .= "</form>";
         return $html;
