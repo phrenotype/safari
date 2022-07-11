@@ -11,7 +11,7 @@ class Field
 
     private $elements = [];
 
-    private static $request;
+    private static $request = [];
 
     /**
      * Set the request array.
@@ -203,10 +203,15 @@ class Field
     /**
      * Get all the elements as an array.
      *
-     * @return array
+     * @param int $index Which element to extract
+     *
+     * @return array | null
      */
-    public function extract(): array
+    public function extract(int $index = null)
     {
+        if($index !== null){
+            return ($this->elements[$index] ?: null);
+        }
         return $this->elements;
     }
 }
