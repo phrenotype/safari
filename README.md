@@ -1,10 +1,9 @@
 # Safari
 ![github stars](https://img.shields.io/github/stars/phrenotype/safari?style=social)
-![packagist stars](https://img.shields.io/packagist/stars/chase/safari)
 ![license](https://img.shields.io/github/license/phrenotype/safari)
 ![contributors](https://img.shields.io/github/contributors/phrenotype/safari)
-![contributors](https://img.shields.io/github/languages/code-size/phrenotype/safari)
-![downloads](https://img.shields.io/packagist/dm/chase/safari)
+![code size](https://img.shields.io/github/languages/code-size/phrenotype/safari)
+
 
 This library makes php forms easy to build and re-use, yes, re-use.
 
@@ -13,11 +12,11 @@ Just like orm models are simply declared and used over and over again, php form 
 Previously submitted form values are automatically filled or choosen.
 
 ## Install
-`composer require chase/safari`
+`composer require safari/safari`
 
 ## Usage
 
-For each form, you need to define a class that extends `Chase\Safari\Form`, an abstract class. Ensure the parent constructor in called within your own constructor. The super global containing the form values should be passed to it. The super global is automatically encoded using `htmlentities` to prevent `xss`.
+For each form, you need to define a class that extends `Safari\Form`, an abstract class. Ensure the parent constructor in called within your own constructor. The super global containing the form values should be passed to it. The super global is automatically encoded using `htmlentities` to prevent `xss`.
 
 Additionally, you can optionally assign form attributes in the constructor. However, make sure you declare them as instance attributes or you will be unable to retrieve the values later.
 
@@ -26,7 +25,7 @@ Then, you are required to implement a method, `elements`, which returns an array
 ```php
 <?php
 
-use Chase\Safari\Form;
+use Safari\Form;
 
 class LoginForm extends Form
 {
@@ -97,8 +96,8 @@ If you have any special values you intend to pass to your constructor, ensure yo
 ```php
 <?php
 
-use Chase\Safari\Form;
-use Chase\Safari\Field;
+use Safari\Form;
+use Safari\Field;
 
 class SampleForm extends Form
 {

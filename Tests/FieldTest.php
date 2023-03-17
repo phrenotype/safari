@@ -1,7 +1,7 @@
 <?php
 
-use Chase\Safari\Element;
-use Chase\Safari\Field;
+use Safari\Element;
+use Safari\Field;
 use PHPUnit\Framework\TestCase;
 
 class FieldTest extends TestCase

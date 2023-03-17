@@ -1,6 +1,6 @@
 <?php
 
-namespace Chase\Safari;
+namespace Safari;
 
 
 /**

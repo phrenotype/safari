@@ -1,6 +1,6 @@
 {
-    "name": "chase/safari",
-    "description": "A form builder for bots and humans",
+    "name": "safari/safari",
+    "description": "A form builder for php.",
     "type": "library",
     "keywords": [
         "form",
@@ -18,7 +18,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Chase\\": "Chase/"
+            "Safari\\": "Safari/"
         },
         "files": []
     },
