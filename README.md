@@ -12,7 +12,9 @@ Just like orm models are simply declared and used over and over again, php form 
 Previously submitted form values are automatically filled or choosen.
 
 ## Install
-`composer require safari/safari`
+```
+composer require safari/safari
+```
 
 ## Usage
 
@@ -173,5 +175,5 @@ class SampleForm extends Form
 
 
 ## Contact
-**Email** : paul.contrib@gmail.com
+**Email** : dev@paulrobert.xyz
 
