@@ -12,10 +12,7 @@ class Element
 
     private $__html__;
 
-
-    public $type = 'text';
-    public $value = '';
-
+    private $attributes = [];
 
     /**
      * Create a form element.
@@ -33,16 +30,22 @@ class Element
                 $this->$k = $v;
             }
         }
+        $this->attributes['name'] = $name;
+    }
+
+    public function  __set($name, $value)
+    {
+        $this->attributes[$name] = $value;
     }
 
     public function __get($name)
     {
-        return null;
+        return $this->attributes[$name] ?? null;
     }
 
     public function stringify(): string
     {
-        $array = get_object_vars($this);
+        $array = $this->attributes;
         if (!empty($array)) {
             $keys = array_keys($array);
             $values = array_values($array);

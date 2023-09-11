@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
 class FieldTest extends TestCase
 {
 
+    protected $field;
+    
     protected function setUp(): void
     {
         //Field::setRequest([]);
